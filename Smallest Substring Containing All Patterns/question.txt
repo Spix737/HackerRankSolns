@@ -1,0 +1,67 @@
+Smallest Substring Containing All Patterns
+
+Given a string S and an array of patterns, find the smallest substring window [l, r] such that each pattern appears at least once within S[l..r]. Return the pair of indices or [-1, -1] if no such window exists.
+
+Example
+
+Input
+
+S = xyzabcabczyx
+patterns = ['abc', 'zyx']
+
+Output
+
+[6,11]
+
+Explanation
+
+- Identify occurrences of 'abc' at indices [3..5] and [6..8], and 'zyx' at [9..11]. 
+- Combining the second 'abc' ([6..8]) with 'zyx' ([9..11]) yields the window [6,11] of length 6, which is shorter than the alternative [3,11], so the result is [6,11].
+
+Input Format
+
+    The first line contains an integer n denoting the length of array patterns
+    The next n lines contains the elements of the array.
+    The last line contains the string S.
+
+Example
+
+2
+abc
+zyx
+xyzabcabczyx
+
+Constraints
+
+    1 <= |S| <= 10^6
+    1 <= m <= 10^5
+    1 <= |patterns[i]| <= 10^5 for each 1 <= i <= m
+    all patterns[i] are non-empty strings
+    patterns may contain duplicate entries
+
+Output Format
+
+    Returns an integer array of length 2
+
+Sample Input 0
+
+1
+a
+a
+
+Sample Output 0
+
+0 
+0
+
+Sample Input 1
+
+1
+b
+a
+
+Sample Output 1
+
+-1
+-1
+

@@ -1,0 +1,81 @@
+// Step 1 — Detect all occurrences of each pattern
+
+intervals = empty list
+
+FOR each pattern P with unique pattern_id:
+    FOR each starting index i in string S:
+        IF substring of S starting at i matches pattern P:
+            record interval (start = i, end = i + length(P) - 1, pattern_id)
+            add interval to intervals
+
+// Each interval says:
+// "Pattern #k exists between index start and index end."
+// If intervals is empty or missing any pattern, return [-1, -1].
+
+
+// Step 2 — Sort intervals
+Sort intervals by their start position (smallest to largest)
+// Now we process them like timeline events.
+
+
+
+// Step 3 — Sliding window over intervals
+// We want the smallest window of intervals covering all pattern IDs at least once.
+left = 0
+best_window = (infinite_size, start = -1, end = -1)
+
+pattern_count = map from pattern_id → 0
+covered_patterns = 0  # number of pattern_ids currently represented in window
+
+
+// Now slide the right pointer forward:
+
+FOR right from 0 to intervals.length - 1:
+    Let interval_r = intervals[right]
+    IF pattern_count[interval_r.pattern_id] == 0:
+        covered_patterns += 1
+    Increment pattern_count for this pattern_id
+
+    WHILE covered_patterns == total number of patterns:
+        # Current window covers all patterns at least once
+
+        Determine window boundaries:
+            window_start = intervals[left].start
+            window_end = max(end values of all intervals between left and right)
+            window_size = window_end - window_start + 1
+
+        IF window_size < best_window.size:
+            update best_window to these indices
+
+        # Attempt to shrink from left
+        Let interval_l = intervals[left]
+        Decrement pattern_count for interval_l.pattern_id
+        IF pattern_count for that id becomes 0:
+            covered_patterns -= 1  # window no longer valid
+        Move left to the right by 1
+
+
+// Step 4 — Return best window
+IF best_window.size is still infinite:
+    RETURN [-1, -1]
+ELSE:
+    RETURN [best_window.start, best_window.end]
+
+
+    // Basically:
+// Find all possible locations where each pattern appears.
+
+// Treat those locations as interval events on a timeline.
+
+// Walk the timeline using sliding window:
+
+// Expand right until all patterns are present.
+
+// Then shrink left as much as possible (while still covering all).
+
+// Track best (smallest) valid window.
+
+// Think of it like you have multiple required stickers.
+// Each interval gives you one sticker.
+// Slide across to collect at least one of each.
+// Once you have all, throw away extras from the left to keep your bag as small as possible.
